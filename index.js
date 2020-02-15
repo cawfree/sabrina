@@ -30,10 +30,6 @@ const statics = (path, flag, impl) =>
     .readFile(path, "utf8")
     .then(data => fs.writeFile(path, data.replace(flag, impl), "utf8"));
 
-const lut = `const __LOOK_UP_TABLE__ = {
-  div: props => <div {...props} />,
-};`;
-
 const buildDynamics = socket =>
   Promise.resolve(`${modulePath}${sep}build`).then(tmp =>
     copy(`${modulePath}${sep}src`, tmp)
@@ -48,7 +44,7 @@ const buildDynamics = socket =>
         statics(
           `${tmp}${sep}pane${sep}components${sep}Pane.js`,
           "__LOOK_UP_TABLE__",
-          lut
+          `const __LOOK_UP_TABLE__ = { div: props => <div {...props} /> };`
         )
       )
       .then(() =>
