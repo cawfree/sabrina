@@ -6,7 +6,8 @@ import { json } from "body-parser";
 import { copy, remove } from "fs-extra";
 import { promises as fs } from "fs";
 import { sep } from "path";
-import appRootPath from "app-root-path";
+
+const appRootPath = __dirname;
 
 const push = (wss, data) =>
   wss.clients.forEach(client => {
