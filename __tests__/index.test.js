@@ -5,7 +5,7 @@
 import "@babel/polyfill";
 import axios from "axios";
 
-import sabrina from "..";
+import sabrina from "../index.js";
 
 jest.setTimeout(24 * 60 * 60 * 1000);
 

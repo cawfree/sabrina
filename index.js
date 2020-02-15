@@ -5,9 +5,10 @@ import { exec } from "child_process";
 import { json } from "body-parser";
 import { copy, remove } from "fs-extra";
 import { promises as fs } from "fs";
-import { sep } from "path";
+import { sep, dirname } from "path";
+import appRootPath from "app-root-path";
 
-const appRootPath = __dirname;
+const modulePath = appRootPath.path;//dirname(require.resolve('sabrina'));
 
 const push = (wss, data) =>
   wss.clients.forEach(client => {
@@ -34,8 +35,8 @@ const lut = `const __LOOK_UP_TABLE__ = {
 };`;
 
 const buildDynamics = socket =>
-  Promise.resolve(`${appRootPath}${sep}build`).then(tmp =>
-    copy("./src", tmp)
+  Promise.resolve(`${modulePath}${sep}build`).then(tmp =>
+    copy(`${modulePath}${sep}src`, tmp)
       .then(() =>
         statics(
           `${tmp}${sep}socket${sep}model.js`,
@@ -52,7 +53,7 @@ const buildDynamics = socket =>
       )
       .then(() =>
         shell(
-          `parcel build ${tmp}${sep}index.html --out-dir ${appRootPath}${sep}public`
+          `${appRootPath}${sep}node_modules${sep}.bin${sep}parcel build ${tmp}${sep}index.html --out-dir ${modulePath}${sep}public`
         )
       )
       .then(() => remove(tmp))
@@ -74,7 +75,7 @@ const pane = wss => (req, res, next) =>
 
 // TODO: Need to build dependencies
 export default (port = 3000, socket = 40510) =>
-  Promise.resolve()
+  Promise.resolve() 
     .then(() => buildDynamics(socket))
     .then(() => new WebSocketServer({ port: socket }))
     .then(
