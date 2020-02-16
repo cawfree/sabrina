@@ -34,6 +34,8 @@ const Pane = ({ onChange, value, meta, ...extraProps }) => {
                 width: '100%',
                 height: '100%',
                 display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <Propeteer LookUpTable={__LOOK_UP_TABLE__} children={children} />
