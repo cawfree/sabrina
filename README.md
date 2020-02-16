@@ -10,16 +10,16 @@ sabrina is a dashboard server built using [express](https://github.com/expressjs
 
 ## 🔥 Features
 
-  ⛏️ It's extensible!
+  ⛏️ **It's extensible!**
 
   - You can configure sabrina to support the visualisation of _any_ React [Components](https://reactjs.org/docs/react-component.html).
   - Rendered layouts are described using [propeteer](https://github.com/cawfree/propeteer), so we can specify whatever [props](https://reactjs.org/docs/components-and-props.html) you want on rendered components.
   
-  ⚡ It's asynchronous!
+  ⚡ **It's asynchronous!**
 
   - Using [websockets](https://github.com/websockets/ws), sabrina will publish all dashboard updates to all client browsers at once.
 
-  🔋 It's batteries included!
+  🔋 **It's batteries included!**
 
   - sabrina comes pre-packaged with [react-mosaic](https://github.com/nomcopter/react-mosaic), so you get _awesome_ window management for free.
   - It's bundled using [parcel](https://github.com/parcel-bundler/parcel), so you _know_ it's fast.
