@@ -8,7 +8,8 @@ import { promises as fs } from "fs";
 import { sep, dirname } from "path";
 import appRootPath from "app-root-path";
 
-const modulePath = appRootPath.path;//dirname(require.resolve('sabrina'));
+//const modulePath = appRootPath.path;//dirname(require.resolve('sabrina'));
+const modulePath = dirname(require.resolve('sabrina'));
 
 const push = (wss, data) =>
   wss.clients.forEach(client => {
@@ -47,7 +48,7 @@ const buildDynamics = socket =>
           `const __LOOK_UP_TABLE__ = { div: props => <div {...props} /> };`
         )
       )
-      .then(() => shell(`babel ${tmp} -d ${tmp}`))
+      .then(() => shell(`babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`))
       .then(() =>
         shell(
           `${appRootPath}${sep}node_modules${sep}.bin${sep}parcel build ${tmp}${sep}index.html --out-dir ${modulePath}${sep}public`
