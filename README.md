@@ -1,10 +1,10 @@
 # sabrina
 
-sabrina is a dashboard server built using [express](), whose [React]() DOM is dynamically controlled by client `POST` requests.
-
 <p align="center">
   <img src="./assets/title.png" width="256" height="256">
 </p>
+
+sabrina is a dashboard server built using [express](), whose [React]() DOM is dynamically controlled by client `POST` requests.
 
 > ⚠️ This project is currently experimental, so you must **use at your own risk**. It is in no way fit for a production environment.
 
