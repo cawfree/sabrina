@@ -47,6 +47,7 @@ const buildDynamics = socket =>
           `const __LOOK_UP_TABLE__ = { div: props => <div {...props} /> };`
         )
       )
+      .then(() => shell(`babel ${tmp} -d ${tmp}`))
       .then(() =>
         shell(
           `${appRootPath}${sep}node_modules${sep}.bin${sep}parcel build ${tmp}${sep}index.html --out-dir ${modulePath}${sep}public`
