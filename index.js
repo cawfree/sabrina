@@ -8,7 +8,7 @@ import { promises as fs } from "fs";
 import { sep, dirname } from "path";
 import appRootPath from "app-root-path";
 
-const modulePath = dirname(require.resolve('sabrina'));
+const modulePath = appRootPath.path;//dirname(require.resolve('sabrina'));
 
 const push = (wss, data) =>
   wss.clients.forEach(client => {
@@ -39,13 +39,25 @@ const buildDynamics = socket =>
           `const __PORT__ = ${socket};`
         )
       )
+      // TODO: externalize
+      .then(() =>
+        statics(
+          `${tmp}${sep}pane${sep}components${sep}Pane.js`,
+          "__IMPORTS__",
+          "import { Doughnut } from 'react-chartjs-2';",
+        )
+      )
       .then(() =>
         statics(
           `${tmp}${sep}pane${sep}components${sep}Pane.js`,
           "__LOOK_UP_TABLE__",
-          `const __LOOK_UP_TABLE__ = { div: props => <div {...props} /> };`
+          `const __LOOK_UP_TABLE__ = {
+            div: props => <div {...props} />,
+            Doughnut: props => <Doughnut {...props} />,
+          };`
         )
-      )
+      ) 
+      .then(() => Promise.reject('e'))
       .then(() => shell(`babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`))
       .then(() =>
         shell(

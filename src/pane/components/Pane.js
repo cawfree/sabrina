@@ -10,6 +10,8 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "react-mosaic-component/react-mosaic-component.css";
 
+__IMPORTS__;
+
 __LOOK_UP_TABLE__;
 
 const Pane = ({ onChange, value, meta, ...extraProps }) => {
