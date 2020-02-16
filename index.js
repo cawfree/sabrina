@@ -33,7 +33,17 @@ const statics = (path, flag, impl) =>
 
 const sourcesToImports = (sources = {}) => Object.entries(sources)
   .map(
-    ([pkg, [...comps]]) => `import {${comps.join(', ')}} from "${pkg}";`,
+    ([pkg, [...comps]]) => `import {${comps.map(
+      (e) => {
+        if (Array.isArray(e) && e.length === 2) {
+          const [Component, Alias] = e;
+          return `${Component} as ${Alias}`;
+        } else if (typeof e === 'string' && e.length > 0) {
+          return e;
+        }
+        throw new Error(`Unable to determine import mechanism for ${e}.`);
+      },
+    ).join(', ')}} from "${pkg}";`,
   )
   .join('\n');
 
@@ -44,7 +54,10 @@ const sourcesToLut = (sources = {}) =>
     ...Object.entries(sources)
       .map(
         ([_, [...comps]]) => comps.map(
-          Component => [`${Component}`, `props => <${Component} {...props} />`],
+          Component => {
+            const Name = Array.isArray(Component) ? Component[1] : Component;
+            return [`${Name}`, `props => <${Name} {...props} />`];
+          },
         ),
       ),
   )

@@ -44,7 +44,40 @@ sabrina({
 
 When we run our application, it'll by default get published to [http://localhost:3000](http://localhost:3000):
 
+```shell
+$ ./node_modules/.bin/babel-node ./index.js
+⚡ Available at http://localhost:3000
+```
 
+Finally, we can start populating our dashboard by making some [`POST`]() requests to the `/pane` [route](), which is used to add new tiled window content to the dashboard. Below, we use [`axios`]():
+
+```javascript
+axios({
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  url: "http://localhost:3000/pane",
+  method: "post",
+  data: {
+    title: "📊 ich bin ein berliner",
+    children: {
+      _: "Doughnut",
+      data: {
+        labels: ["How awesome is sabrina?"],
+        datasets: [{
+          data: [100],
+          backgroundColor: [
+            "#00FF00",
+          ]
+        }],
+      }
+    }
+  }
+});
+```
+
+And this will publish our new chart data to all connected clients. Simple!
 
 ## License
 [MIT](https://opensource.org/licenses/MIT)
