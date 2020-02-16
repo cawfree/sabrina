@@ -8,7 +8,7 @@ sabrina is a dashboard server built using [express](), whose [React]() DOM is dy
 
 > ⚠️ This project is currently experimental, so you must **use at your own risk**. It is in no way fit for a production environment.
 
-## Features
+## 🔥 Features
 
   -  ⛏️ It's extensible! 
     - You can configure sabrina to support the visualisation of _any_ React [Component]()s.
@@ -19,7 +19,7 @@ sabrina is a dashboard server built using [express](), whose [React]() DOM is dy
     - sabrina comes pre-packaged with [react-mosaic](), so you get _awesome_ window management for free.
     - It's compiled using [parcel](), so you _know_ it's fast.
 
-## Getting Started
+## 🚀 Getting Started
 
 Using [`npm`]():
 
@@ -33,7 +33,7 @@ Using [`yarn`]():
 yarn add sabrina
 ```
 
-## Example
+## 📌 Usage
 
 In this example, we'll use [react-chartjs-2]() to render a [`<Doughnut />`]. We'll start by importing the server and configuring it to support this kind of component.
 
@@ -83,5 +83,5 @@ axios({
 
 And this will publish our new chart data to all connected clients. Simple!
 
-## License
+## ✌️ License
 [MIT](https://opensource.org/licenses/MIT)
