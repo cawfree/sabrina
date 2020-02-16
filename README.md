@@ -4,20 +4,20 @@
   <img src="./assets/title.png" width="256" height="256">
 </p>
 
-sabrina is a dashboard server built using [express](), whose [React]() DOM is dynamically controlled by client `POST` requests.
+sabrina is a dashboard server built using [express](https://github.com/expressjs/express), whose [React](https://github.com/facebook/react) DOM is dynamically controlled by client `POST` requests.
 
 > ⚠️ This project is currently experimental, so you must **use at your own risk**. It is in no way fit for a production environment.
 
 ## 🔥 Features
 
   -  ⛏️ It's extensible! 
-    - You can configure sabrina to support the visualisation of _any_ React [Component]()s.
-    - Rendered layouts are described using [propeteer](), so we can specify whatever [props]() you want on rendered components.
+    - You can configure sabrina to support the visualisation of _any_ React [Component](https://reactjs.org/docs/react-component.html)s.
+    - Rendered layouts are described using [propeteer](https://github.com/cawfree/propeteer), so we can specify whatever [props](https://reactjs.org/docs/components-and-props.html) you want on rendered components.
   - ⚡ It's asynchronous!
-    - Using [websockets](), sabrina will publish all dashboard updates to all client browsers at once.
+    - Using [websockets](https://github.com/websockets/ws), sabrina will publish all dashboard updates to all client browsers at once.
   - 🔋 It's batteries included!
-    - sabrina comes pre-packaged with [react-mosaic](), so you get _awesome_ window management for free.
-    - It's compiled using [parcel](), so you _know_ it's fast.
+    - sabrina comes pre-packaged with [react-mosaic](https://github.com/nomcopter/react-mosaic), so you get _awesome_ window management for free.
+    - It's bundled using [parcel](https://github.com/parcel-bundler/parcel), so you _know_ it's fast.
 
 ## 🚀 Getting Started
 
@@ -35,7 +35,7 @@ yarn add sabrina
 
 ## 📌 Usage
 
-In this example, we'll use [react-chartjs-2]() to render a [`<Doughnut />`]. We'll start by importing the server and configuring it to support this kind of component.
+In this example, we'll use [react-chartjs-2](https://github.com/jerairrest/react-chartjs-2) to render a [`<Doughnut />`]. We'll start by importing the server and configuring it to support this kind of component.
 
 ```javascript
 import "react-chartjs-2";
@@ -53,9 +53,11 @@ $ ./node_modules/.bin/babel-node ./index.js
 ⚡ Available at http://localhost:3000
 ```
 
-Finally, we can start populating our dashboard by making some [`POST`]() requests to the `/pane` [route](), which is used to add new tiled window content to the dashboard. Below, we use [`axios`]():
+Finally, we can start populating our dashboard by making some [`POST`](https://en.wikipedia.org/wiki/POST_(HTTP)) requests to the `/pane` [route](https://expressjs.com/en/guide/routing.html), which is used to add new tiled window content to the dashboard. Below, we use [`axios`](https://github.com/axios/axios):
 
 ```javascript
+import axios from "axios";
+
 axios({
   headers: {
     "Content-Type": "application/json",
