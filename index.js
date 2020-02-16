@@ -8,7 +8,6 @@ import { promises as fs } from "fs";
 import { sep, dirname } from "path";
 import appRootPath from "app-root-path";
 
-//const modulePath = appRootPath.path;//dirname(require.resolve('sabrina'));
 const modulePath = dirname(require.resolve('sabrina'));
 
 const push = (wss, data) =>
@@ -21,7 +20,6 @@ const shell = cmd =>
   new Promise((resolve, reject) =>
     exec(cmd, (err, stdout, stderr) => {
       if (err) reject(err);
-      console.log("✨ Finished compiling!");
       return resolve();
     })
   );
@@ -54,7 +52,7 @@ const buildDynamics = socket =>
           `${appRootPath}${sep}node_modules${sep}.bin${sep}parcel build ${tmp}${sep}index.html --out-dir ${modulePath}${sep}public`
         )
       )
-      .then(() => remove(tmp))
+      .then(() => remove(tmp)),
   );
 
 const pane = wss => (req, res, next) =>
@@ -71,7 +69,6 @@ const pane = wss => (req, res, next) =>
     )
     .catch(next);
 
-// TODO: Need to build dependencies
 export default (port = 3000, socket = 40510) =>
   Promise.resolve() 
     .then(() => buildDynamics(socket))
@@ -81,7 +78,7 @@ export default (port = 3000, socket = 40510) =>
         new Promise(resolve =>
           express()
             .use(json())
-            .use(express.static("public"))
+            .use(express.static(`${modulePath}${sep}public`))
             .post("/pane", pane(wss))
             .listen(port, resolve)
         )
