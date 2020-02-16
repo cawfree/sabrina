@@ -10,7 +10,12 @@ import sabrina from "../index.js";
 jest.setTimeout(24 * 60 * 60 * 1000);
 
 it("should export a configurable remote logging interface", async () => {
-  await sabrina();
+  await sabrina(
+    {
+      "react-chartjs-2": ["Doughnut", "Bar"],
+      "react-bulb": ["Bulb"],
+    },
+  );
 
   await new Promise(resolve => setTimeout(resolve, 5000));
 

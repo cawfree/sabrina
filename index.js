@@ -8,6 +8,7 @@ import { promises as fs } from "fs";
 import { sep, dirname } from "path";
 import appRootPath from "app-root-path";
 
+// TODO: Need to implement a switch for local development versus import for path resolution.
 //const modulePath = appRootPath.path;
 const modulePath = dirname(require.resolve('sabrina'));
 
@@ -30,7 +31,30 @@ const statics = (path, flag, impl) =>
     .readFile(path, "utf8")
     .then(data => fs.writeFile(path, data.replace(flag, impl), "utf8"));
 
-const buildDynamics = socket =>
+const sourcesToImports = (sources = {}) => Object.entries(sources)
+  .map(
+    ([pkg, [...comps]]) => `import {${comps.join(', ')}} from "${pkg}";`,
+  )
+  .join('\n');
+
+const sourcesToLut = (sources = {}) => 
+`
+{
+  ${[].concat(
+    ...Object.entries(sources)
+      .map(
+        ([_, [...comps]]) => comps.map(
+          Component => [`${Component}`, `props => <${Component} {...props} />`],
+        ),
+      ),
+  )
+  .map(
+    ([Component, inst]) => `${Component}: ${inst},`,
+  )
+  .join('\n')}
+}`;
+
+const buildDynamics = (sources, socket) =>
   Promise.resolve(`${modulePath}${sep}build`).then(tmp =>
     copy(`${modulePath}${sep}src`, tmp)
       .then(() =>
@@ -45,17 +69,14 @@ const buildDynamics = socket =>
         statics(
           `${tmp}${sep}pane${sep}components${sep}Pane.js`,
           "__EXTRA_IMPORTS__",
-          "import { Doughnut } from 'react-chartjs-2';",
+          sourcesToImports(sources),
         )
       )
       .then(() =>
         statics(
           `${tmp}${sep}pane${sep}components${sep}Pane.js`,
           "__LOOK_UP_TABLE__",
-          `const __LOOK_UP_TABLE__ = {
-            div: props => <div {...props} />,
-            Doughnut: props => <Doughnut {...props} />,
-          };`
+          `const __LOOK_UP_TABLE__ = ${sourcesToLut(sources)};`
         )
       ) 
       .then(() => shell(`babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`))
@@ -81,9 +102,9 @@ const pane = wss => (req, res, next) =>
     )
     .catch(next);
 
-export default (port = 3000, socket = 40510) =>
+export default (sources = {}, port = 3000, socket = 40510) =>
   Promise.resolve() 
-    .then(() => buildDynamics(socket))
+    .then(() => buildDynamics(sources, socket))
     .then(() => new WebSocketServer({ port: socket }))
     .then(
       wss =>
