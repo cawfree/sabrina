@@ -1,6 +1,6 @@
 {
   "name": "sabrina",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "✨ Asynchronous dashboard magic!",
   "source": true,
   "main": "dist",
