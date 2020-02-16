@@ -29,7 +29,15 @@ const Pane = ({ onChange, value, meta, ...extraProps }) => {
         const { title, children } = meta.get(id);
         return (
           <MosaicWindow title={title} path={path}>
-            <Propeteer LookUpTable={__LOOK_UP_TABLE__} children={children} />
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+              }}
+            >
+              <Propeteer LookUpTable={__LOOK_UP_TABLE__} children={children} />
+            </div>
           </MosaicWindow>
         );
       }}
