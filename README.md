@@ -38,6 +38,19 @@ Using [`yarn`]():
 yarn add sabrina
 ```
 
+### Breaking Changes
+
+#### 0.1.0-alpha.6
+Server configuration options are now specified using an `options` object, as opposed to a sequence of primitives.
+
+```diff
++ sabrina({ /* ui dependencies */ }, {
++   port: 3000,
++   socket: 40510,
++ });
+- sabrina({ /* ui dependencies */ }, 3000, 40510);
+```
+
 ## 📌 Usage
 
 In this example, we'll use [react-chartjs-2](https://github.com/jerairrest/react-chartjs-2) to render a [`<Doughnut />`](https://www.chartjs.org/docs/latest/charts/doughnut.html). We'll start by importing the server and configuring it to support this kind of component.

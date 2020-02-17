@@ -12,6 +12,12 @@ import appRootPath from "app-root-path";
 //const modulePath = appRootPath.path;
 const modulePath = dirname(require.resolve("sabrina"));
 
+const defaultOptions = Object.freeze({
+  port: 3000,
+  socket: 40510,
+  title: "sabrina"
+});
+
 const push = (wss, data) =>
   wss.clients.forEach(client => {
     const { readyState } = client;
@@ -117,8 +123,9 @@ const pane = wss => (req, res, next) =>
     )
     .catch(next);
 
-export default (sources = {}, port = 3000, socket = 40510) =>
-  Promise.resolve()
+export default (sources = {}, opts = defaultOptions) => {
+  const { port, socket, title } = { ...defaultOptions, ...opts };
+  return Promise.resolve()
     .then(() => buildDynamics(sources, socket))
     .then(() => new WebSocketServer({ port: socket }))
     .then(
@@ -132,3 +139,4 @@ export default (sources = {}, port = 3000, socket = 40510) =>
         )
     )
     .then(() => console.log(`⚡ Available at http://localhost:${port}`));
+};
