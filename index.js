@@ -71,7 +71,7 @@ const sourcesToLut = (sources = {}) =>
     .join("\n")}
 }`;
 
-const buildDynamics = (sources, socket) =>
+const buildDynamics = (sources, title, socket) =>
   Promise.resolve(`${modulePath}${sep}build`).then(tmp =>
     copy(`${modulePath}${sep}src`, tmp)
       .then(() =>
@@ -96,6 +96,7 @@ const buildDynamics = (sources, socket) =>
           `const __LOOK_UP_TABLE__ = ${sourcesToLut(sources)};`
         )
       )
+      .then(() => statics(`${tmp}${sep}index.html`, "__TITLE__", `${title}`))
       .then(() =>
         shell(
           `babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`
@@ -126,7 +127,7 @@ const pane = wss => (req, res, next) =>
 export default (sources = {}, opts = defaultOptions) => {
   const { port, socket, title } = { ...defaultOptions, ...opts };
   return Promise.resolve()
-    .then(() => buildDynamics(sources, socket))
+    .then(() => buildDynamics(sources, title, socket))
     .then(() => new WebSocketServer({ port: socket }))
     .then(
       wss =>
