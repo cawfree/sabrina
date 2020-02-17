@@ -40,7 +40,7 @@ yarn add sabrina
 
 ## 📌 Usage
 
-In this example, we'll use [react-chartjs-2](https://github.com/jerairrest/react-chartjs-2) to render a [`<Doughnut />`]. We'll start by importing the server and configuring it to support this kind of component.
+In this example, we'll use [react-chartjs-2](https://github.com/jerairrest/react-chartjs-2) to render a [`<Doughnut />`](https://www.chartjs.org/docs/latest/charts/doughnut.html). We'll start by importing the server and configuring it to support this kind of component.
 
 ```javascript
 import "react-chartjs-2";
@@ -92,3 +92,9 @@ And this will publish our new chart data to all connected clients. Simple!
 
 ## ✌️ License
 [MIT](https://opensource.org/licenses/MIT)
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/cawfree">
+    <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy @cawfree a coffee" width="232" height="50" />
+  </a>
+</p>
