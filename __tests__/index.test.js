@@ -14,6 +14,8 @@ it("should export a configurable remote logging interface", async () => {
     "react-chartjs-2": ["Doughnut", "Bar"],
     "react-bulb": ["Bulb"],
     "react-player": [["default", "VideoPlayer"]]
+  }, {
+    title: '🧪 Testing...',
   });
 
   await new Promise(resolve => setTimeout(resolve, 5000));

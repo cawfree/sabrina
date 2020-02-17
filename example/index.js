@@ -8,6 +8,9 @@ sabrina(
     "react-chartjs-2": ["Doughnut", "Line"],
     "react-player": [["default", "VideoPlayer"]],
   },
+  {
+    title: '☠️ Example! ☠️',
+  },
 )
   .then(
     () => new Promise(
