@@ -31,12 +31,12 @@ const Pane = ({ onChange, value, meta, ...extraProps }) => {
           <MosaicWindow title={title} path={path}>
             <div
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 bottom: 0,
                 right: 0,
-                overflowY: 'scroll',
+                overflowY: "scroll"
               }}
             >
               <Propeteer LookUpTable={__LOOK_UP_TABLE__} children={children} />
