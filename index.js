@@ -10,7 +10,7 @@ import appRootPath from "app-root-path";
 
 // TODO: Need to implement a switch for local development versus import for path resolution.
 //const modulePath = appRootPath.path;
-const modulePath = dirname(require.resolve('sabrina'));
+const modulePath = dirname(require.resolve("sabrina"));
 
 const push = (wss, data) =>
   wss.clients.forEach(client => {
@@ -31,40 +31,38 @@ const statics = (path, flag, impl) =>
     .readFile(path, "utf8")
     .then(data => fs.writeFile(path, data.replace(flag, impl), "utf8"));
 
-const sourcesToImports = (sources = {}) => Object.entries(sources)
-  .map(
-    ([pkg, [...comps]]) => `import {${comps.map(
-      (e) => {
-        if (Array.isArray(e) && e.length === 2) {
-          const [Component, Alias] = e;
-          return `${Component} as ${Alias}`;
-        } else if (typeof e === 'string' && e.length > 0) {
-          return e;
-        }
-        throw new Error(`Unable to determine import mechanism for ${e}.`);
-      },
-    ).join(', ')}} from "${pkg}";`,
-  )
-  .join('\n');
+const sourcesToImports = (sources = {}) =>
+  Object.entries(sources)
+    .map(
+      ([pkg, [...comps]]) =>
+        `import {${comps
+          .map(e => {
+            if (Array.isArray(e) && e.length === 2) {
+              const [Component, Alias] = e;
+              return `${Component} as ${Alias}`;
+            } else if (typeof e === "string" && e.length > 0) {
+              return e;
+            }
+            throw new Error(`Unable to determine import mechanism for ${e}.`);
+          })
+          .join(", ")}} from "${pkg}";`
+    )
+    .join("\n");
 
-const sourcesToLut = (sources = {}) => 
-`
+const sourcesToLut = (sources = {}) =>
+  `
 {
-  ${[].concat(
-    ...Object.entries(sources)
-      .map(
-        ([_, [...comps]]) => comps.map(
-          Component => {
-            const Name = Array.isArray(Component) ? Component[1] : Component;
-            return [`${Name}`, `props => <${Name} {...props} />`];
-          },
-        ),
-      ),
-  )
-  .map(
-    ([Component, inst]) => `${Component}: ${inst},`,
-  )
-  .join('\n')}
+  ${[]
+    .concat(
+      ...Object.entries(sources).map(([_, [...comps]]) =>
+        comps.map(Component => {
+          const Name = Array.isArray(Component) ? Component[1] : Component;
+          return [`${Name}`, `props => <${Name} {...props} />`];
+        })
+      )
+    )
+    .map(([Component, inst]) => `${Component}: ${inst},`)
+    .join("\n")}
 }`;
 
 const buildDynamics = (sources, socket) =>
@@ -82,7 +80,7 @@ const buildDynamics = (sources, socket) =>
         statics(
           `${tmp}${sep}pane${sep}components${sep}Pane.js`,
           "__EXTRA_IMPORTS__",
-          sourcesToImports(sources),
+          sourcesToImports(sources)
         )
       )
       .then(() =>
@@ -91,14 +89,18 @@ const buildDynamics = (sources, socket) =>
           "__LOOK_UP_TABLE__",
           `const __LOOK_UP_TABLE__ = ${sourcesToLut(sources)};`
         )
-      ) 
-      .then(() => shell(`babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`))
+      )
+      .then(() =>
+        shell(
+          `babel ${tmp} -d ${tmp} --presets @babel/preset-env,@babel/preset-react`
+        )
+      )
       .then(() =>
         shell(
           `${appRootPath}${sep}node_modules${sep}.bin${sep}parcel build ${tmp}${sep}index.html --out-dir ${modulePath}${sep}public`
         )
       )
-      .then(() => remove(tmp)),
+      .then(() => remove(tmp))
   );
 
 const pane = wss => (req, res, next) =>
@@ -116,7 +118,7 @@ const pane = wss => (req, res, next) =>
     .catch(next);
 
 export default (sources = {}, port = 3000, socket = 40510) =>
-  Promise.resolve() 
+  Promise.resolve()
     .then(() => buildDynamics(sources, socket))
     .then(() => new WebSocketServer({ port: socket }))
     .then(
